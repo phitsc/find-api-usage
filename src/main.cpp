@@ -59,9 +59,10 @@ static cl::alias verboseAlias("v",
     cl::aliasopt(verbose)
 );
 
-static cl::opt<std::string> functionCall("function-call",
+static cl::list<std::string> functionCall("function-call",
     cl::desc("Function or method call"),
-    cl::cat(optionCategory)
+    cl::cat(optionCategory),
+    cl::CommaSeparated
 );
 
 static cl::alias functionCallAlias("fc",
@@ -104,8 +105,8 @@ int main(int argc, const char** argv)
 
     MatchFinder matchFinder;
 
-    if (!functionCall.empty()) {
-        const auto classMethod = splitClassMethod(functionCall);
+    for (auto& fc : functionCall) {
+        const auto classMethod = splitClassMethod(fc);
         auto action = std::make_unique<NotifyFunctionCallAction>(
             std::get<0>(classMethod), std::get<1>(classMethod), options);
         matchFinder.addMatcher(action->matcher(), action.get());
