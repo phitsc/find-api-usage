@@ -32,18 +32,19 @@ def main():
     else:
         jsonFile = None
 
-    # call_args = (
-    #     ["python3", "run.py"]
-    #     + ([("-json " + jsonFile)] if jsonFile else [])
-    #     + (["-v"] if args.verbose else [])
-    #     + [
-    #         "-p",
-    #         str(resolve_path(Path("test/project1/builddir"))),
-    #         str(resolve_path(Path("test/project1/src/TestClass.cpp"))),
-    #     ]
-    # )
+    call_args = (
+        ["python3", "run.py"]
+        + ([("-json " + jsonFile)] if jsonFile else [])
+        + (["-v"] if args.verbose else [])
+        + [ "-fc", "TestClass::fn2" ]
+        + [
+            "-p",
+            str(resolve_path(Path("test/integration_tests/builddir"))),
+            str(resolve_path(Path("test/integration_tests/src/main.cpp"))),
+        ]
+    )
 
-    # call(call_args)
+    call(call_args)
 
     if args.diff:
         call(
@@ -51,11 +52,11 @@ def main():
                 "diff",
                 str(
                     resolve_path(
-                        Path("test/project1/builddir/{}_results.json".format(PROJECT_NAME))
+                        Path("test/integration_tests/builddir/{}_results.json".format(PROJECT_NAME))
                     )
                 ),
                 str(
-                    resolve_path(Path("test/project1/json/{}_results.json".format(PROJECT_NAME)))
+                    resolve_path(Path("test/integration_tests/json/{}_results.json".format(PROJECT_NAME)))
                 ),
             ]
         )

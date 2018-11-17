@@ -1,6 +1,7 @@
 #pragma once
 
 #include "FrontendAction.hpp"
+#include "Helpers.hpp"
 #include "Options.hpp"
 
 #include "clang/ASTMatchers/ASTMatchFinder.h"
@@ -49,12 +50,10 @@ class NotifyFunctionCallAction : public FrontendAction
     virtual void run(const clang::ast_matchers::MatchFinder::MatchResult& result) override
     {
         if (const auto funcCall = result.Nodes.getNodeAs<clang::CallExpr>("function_call")) {
-            auto& sm = *result.SourceManager;
-            llvm::outs()
-                << sm.getFilename(funcCall->getBeginLoc()) << ":" << sm.getSpellingLineNumber(funcCall->getEndLoc()) << ": "
-                << "Found '" << m_className << "::" << m_functionName << "()'\n";
-        } else {
-            llvm::outs() << "found other match\n";
+            printToConsole(
+                *result.SourceManager,
+                *funcCall,
+                m_options["verbose"].as<bool>());
         }
     }
 
