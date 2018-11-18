@@ -2,6 +2,7 @@
 
 #include "FrontendAction.hpp"
 #include "Helpers.hpp"
+#include "JsonFile.hpp"
 #include "Options.hpp"
 
 #include "clang/ASTMatchers/ASTMatchFinder.h"
@@ -12,22 +13,15 @@ class NotifyFunctionCallAction : public FrontendAction
 {
   public:
     NotifyFunctionCallAction(
-        const std::string& functionName,
-        const Options& options
-    )
-        : m_functionName(functionName)
-        , m_options(options)
-    {
-    }
-
-    NotifyFunctionCallAction(
         const std::string& className,
         const std::string& functionName,
-        const Options& options
+        const Options& options,
+        JsonFile& jsonFile
     )
         : m_className(className)
         , m_functionName(functionName)
         , m_options(options)
+        , m_jsonFile(jsonFile)
     {
     }
 
@@ -50,10 +44,17 @@ class NotifyFunctionCallAction : public FrontendAction
     virtual void run(const clang::ast_matchers::MatchFinder::MatchResult& result) override
     {
         if (const auto funcCall = result.Nodes.getNodeAs<clang::CallExpr>("function_call")) {
-            printToConsole(
-                *result.SourceManager,
-                *funcCall,
-                m_options["verbose"].as<bool>());
+            if (m_jsonFile) {
+                m_jsonFile.write(
+                    *result.SourceManager,
+                    *funcCall
+                );
+            } else {
+                printToConsole(
+                    *result.SourceManager,
+                    *funcCall,
+                    m_options["verbose"].as<bool>());
+            }
         }
     }
 
@@ -61,4 +62,5 @@ private:
     std::string m_className;
     std::string m_functionName;
     Options m_options;
+    JsonFile& m_jsonFile;
 };

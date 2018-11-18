@@ -1,4 +1,5 @@
 #include "Helpers.hpp"
+#include "JsonFile.hpp"
 #include "NotifyFunctionCallAction.hpp"
 #include "Options.hpp"
 
@@ -101,14 +102,16 @@ int main(int argc, const char** argv)
     addOpt(options, json, std::string());
     addOpt(options, verbose, false);
 
+    JsonFile jsonFile(options["json"].as<std::string>());
+
     std::vector<std::unique_ptr<FrontendAction>> actions;
 
     MatchFinder matchFinder;
 
     for (auto& fc : functionCall) {
-        const auto classMethod = splitClassMethod(fc);
+        const auto [ className, methodName ] = splitClassMethod(fc);
         auto action = std::make_unique<NotifyFunctionCallAction>(
-            std::get<0>(classMethod), std::get<1>(classMethod), options);
+            className, methodName, options, jsonFile);
         matchFinder.addMatcher(action->matcher(), action.get());
         actions.push_back(std::move(action));
     }

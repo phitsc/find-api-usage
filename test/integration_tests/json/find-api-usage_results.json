@@ -1,0 +1,17 @@
+[
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 12,
+    "message": "t.fn2()"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 13,
+    "message": "t.fn2(true)"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 14,
+    "message": "t.fn2(\"Hello, world\")"
+  }
+]

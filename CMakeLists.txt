@@ -22,3 +22,9 @@ target_compile_features(${TARGET}
     PRIVATE cxx_std_17)
 
 set (CMAKE_EXE_LINKER_FLAGS "-static-libstdc++")
+
+if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+    target_compile_options(${TARGET}
+        PRIVATE -Wno-covered-switch-default
+    )
+endif()
