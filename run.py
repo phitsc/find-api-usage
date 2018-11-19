@@ -24,6 +24,8 @@ import fileinput
 
 from os import remove, rename
 from pathlib import Path
+from platform import system
+from re import match
 from subprocess import call
 from helpers import docker_image_exists, fix_wsl_path, resolve_path
 
@@ -37,13 +39,20 @@ def redirect_paths(unknown_args, name, directory):
     ret = []
 
     for arg in unknown_args:
-        if Path(arg).exists():
+        if system() == 'Linux' and Path(arg).exists():
             path = str(fix_wsl_path(resolve_path(Path(arg))))
             pos = path.find(name)
             if pos >= 0:
                 ret.append(directory + path[pos + len(name) :])
             else:
                 ret.append(path)
+        elif system() == 'Windows' and match("^[A-Za-z]:\\.*", arg):
+            pos = arg.find(name)
+            if pos >= 0:
+                path = str(Path(directory + arg[pos + len(name) :]).as_posix())
+                ret.append(path)
+            else:
+                ret.append(arg)
         else:
             ret.append(arg)
 
