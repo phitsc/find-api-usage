@@ -7,7 +7,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 # set project_name variable
 source ${DIR}/project-name.sh
 
-unittests_dir="/root/clang-llvm/llvm/tools/clang/tools/extra/${project_name}/test/unittests"
+unittests_dir="/root/clang-llvm/llvm/tools/clang/tools/extra/${project_name}/test/unit_tests"
 
 if [ ! -d "${unittests_dir}" ]
 then
@@ -15,7 +15,7 @@ then
     exit 1
 fi
 
-unittests_build_dir=${unittests_dir}/build
+unittests_build_dir=${unittests_dir}/builddir
 
 if [ ! -d "${unittests_build_dir}" ]
 then
