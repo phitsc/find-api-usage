@@ -6,5 +6,11 @@ services:
   - docker
 
 before_install:
-  - docker build -t libtooling - < Docker/Travis.Dockerfile
-  - docker run --name libtooling_build -v "${TRAVIS_BUILD_DIR}:/root/clang-llvm/llvm/tools/clang/tools/extra/find-api-usage" libtooling /root/clang-llvm/llvm/tools/clang/tools/extra/find-api-usage/Docker/docker-test.sh
+  - docker build -t libtooling - < api-utils-common/Docker/Travis.Dockerfile
+  - >
+    docker run
+    --name libtooling_build
+    -v "${TRAVIS_BUILD_DIR}:/root/clang-llvm/llvm/tools/clang/tools/extra/find-api-usage"
+    libtooling
+    /root/clang-llvm/llvm/tools/clang/tools/extra/find-api-usage/api-utils-common/Docker/docker-test.sh
+    find-api-usage

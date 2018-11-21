@@ -1,0 +1,3 @@
+[submodule "api-utils-common"]
+	path = api-utils-common
+	url = git@github.com:phitsc/api-utils-common.git

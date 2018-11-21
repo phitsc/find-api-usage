@@ -1,2 +1,3 @@
 @echo off
-python3 scripts/test.py %*
+set /p project_name= <project_name.cfg
+python3 api-utils-common/scripts/test.py --tool %project_name% %*

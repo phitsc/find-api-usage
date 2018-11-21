@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-python3 scripts/run.py $@
+read -r project_name < project_name.cfg
+
+python3 api-utils-common/scripts/run.py --tool "${project_name}" $@

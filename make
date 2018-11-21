@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
 
-python3 scripts/make.py $@
+read -r project_name < project_name.cfg
+
+python3 api-utils-common/scripts/make.py --tool "${project_name}" $@
+
