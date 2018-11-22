@@ -13,4 +13,4 @@ before_install:
     -v "${TRAVIS_BUILD_DIR}:/root/clang-llvm/llvm/tools/clang/tools/extra/find-api-usage"
     libtooling
     /root/clang-llvm/llvm/tools/clang/tools/extra/find-api-usage/api-utils-common/Docker/docker-test.sh
-    find-api-usage -fc TestClass::fn2
+    find-api-usage "-fc TestClass::fn2"
