@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
-read -r project_name < project_name.cfg
+{
+	read -r; project_name=${REPLY//[$'\r\n']}
+	read -r; test_args=${REPLY//[$'\r\n']}
+} < project.cfg
 
-python3 api-utils-common/scripts/test.py --tool "${project_name}" $@
+python3 api-utils-common/scripts/test.py --tool ${project_name} ${test_args} $@
