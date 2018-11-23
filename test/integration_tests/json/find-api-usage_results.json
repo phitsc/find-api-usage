@@ -1,17 +1,50 @@
 [
   {
-    "file": "/root/test_project/integration_tests/src/main.cpp",
-    "line": 12,
-    "message": "t.fn2()"
+    "file": "/root/test_project/integration_tests/src/TypeDefinitions.hpp",
+    "line": 26,
+    "message": "TestClass m_test",
+    "type": "member"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/TypeDefinitions.hpp",
+    "line": 27,
+    "message": "EnumClass m_enum",
+    "type": "member"
   },
   {
     "file": "/root/test_project/integration_tests/src/main.cpp",
-    "line": 13,
-    "message": "t.fn2(true)"
+    "line": 9,
+    "message": "t.fn2()",
+    "type": "method"
   },
   {
     "file": "/root/test_project/integration_tests/src/main.cpp",
-    "line": 14,
-    "message": "t.fn2(\"Hello, world\")"
+    "line": 10,
+    "message": "t.fn2(true)",
+    "type": "method"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 11,
+    "message": "t.fn2(\"Hello, world\")",
+    "type": "method"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 15,
+    "message": "freeFunction()",
+    "type": "function"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 5,
+    "message": "TestClass t",
+    "type": "non-member"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 17,
+    "message": "EnumClass anEnum",
+    "type": "non-member"
   }
 ]

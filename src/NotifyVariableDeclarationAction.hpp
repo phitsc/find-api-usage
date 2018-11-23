@@ -9,17 +9,15 @@
 
 #include <string>
 
-class NotifyFunctionCallAction : public FrontendAction
+class NotifyVariableDeclarationAction : public FrontendAction
 {
   public:
-    NotifyFunctionCallAction(
-        const std::string& className,
-        const std::string& functionName,
+    NotifyVariableDeclarationAction(
+        const std::string& typeName,
         const Options& options,
         JsonFile& jsonFile
     )
-        : m_className(className)
-        , m_functionName(functionName)
+        : m_typeName(typeName)
         , m_options(options)
         , m_jsonFile(jsonFile)
     {
@@ -29,38 +27,31 @@ class NotifyFunctionCallAction : public FrontendAction
     {
         using namespace clang::ast_matchers;
 
-        if (!m_className.empty()) {
-            return callExpr(
-                callee(cxxMethodDecl(ofClass(hasName(m_className.c_str())))),
-                callee(cxxMethodDecl(hasName(m_functionName.c_str())))
-            ).bind("function_call");
-        } else {
-            return callExpr(
-                callee(functionDecl(hasName(m_functionName.c_str())))
-            ).bind("function_call");
-        }
+        return declaratorDecl(anyOf(
+            varDecl(hasType(namedDecl(hasName(m_typeName)))),
+            fieldDecl(hasType(namedDecl(hasName(m_typeName))))
+        )).bind("declarator_decl");
     }
 
     virtual void run(const clang::ast_matchers::MatchFinder::MatchResult& result) override
     {
-        if (const auto funcCall = result.Nodes.getNodeAs<clang::CallExpr>("function_call")) {
+        if (const auto declDecl = result.Nodes.getNodeAs<clang::DeclaratorDecl>("declarator_decl")) {
             if (m_jsonFile) {
                 m_jsonFile.write(
                     *result.SourceManager,
-                    *funcCall
+                    *declDecl
                 );
             } else {
                 printToConsole(
                     *result.SourceManager,
-                    *funcCall,
+                    *declDecl,
                     m_options["verbose"].as<bool>());
             }
         }
     }
 
 private:
-    std::string m_className;
-    std::string m_functionName;
+    std::string m_typeName;
     Options m_options;
     JsonFile& m_jsonFile;
 };

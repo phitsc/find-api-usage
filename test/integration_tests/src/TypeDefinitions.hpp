@@ -12,3 +12,19 @@ public:
     void fn3() {}
     void fn4() {}
 };
+
+enum class EnumClass
+{
+    Enum1,
+    Enum2,
+    Enum3
+};
+
+class AnotherClass
+{
+private:
+    TestClass m_test;
+    EnumClass m_enum;
+};
+
+inline void freeFunction() {}

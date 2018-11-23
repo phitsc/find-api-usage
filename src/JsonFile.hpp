@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ClangStatement.hpp"
+#include "ClangHelpers.hpp"
 
 #include "../nlohmann/json.hpp"
 
@@ -33,15 +33,32 @@ public:
 
     void write(
         const clang::SourceManager& sm,
-        const clang::Stmt& statement)
+        const clang::CallExpr& callExpr)
     {
         if (!m_filePath.empty()) {
-            const std::string filename = sm.getFilename(statement.getBeginLoc());
+            const std::string filename = sm.getFilename(callExpr.getBeginLoc());
 
             m_json += {
                 { "file", filename },
-                { "line", sm.getSpellingLineNumber(statement.getBeginLoc()) },
-                { "message", toString(statement) }
+                { "line", sm.getSpellingLineNumber(callExpr.getBeginLoc()) },
+                { "message", toString(callExpr) },
+                { "type", callTypeAsString(callExpr) }
+            };
+        }
+    }
+
+    void write(
+        const clang::SourceManager& sm,
+        const clang::DeclaratorDecl& declDecl)
+    {
+        if (!m_filePath.empty()) {
+            const std::string filename = sm.getFilename(declDecl.getBeginLoc());
+
+            m_json += {
+                { "file", filename },
+                { "line", sm.getSpellingLineNumber(declDecl.getBeginLoc()) },
+                { "message", toString(declDecl, sm) },
+                { "type", varDeclTypeAsString(declDecl) }
             };
         }
     }

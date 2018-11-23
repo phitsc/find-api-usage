@@ -1,9 +1,6 @@
-#include "TestClass.hpp"
+#include "TypeDefinitions.hpp"
 
-namespace
-{
-
-void someFunction()
+int main()
 {
     TestClass t;
 
@@ -14,11 +11,10 @@ void someFunction()
     t.fn2("Hello, world");
 
     t.fn3();
-}
 
-}
+    freeFunction();
 
-int main()
-{
+    EnumClass anEnum;
+
     return 0;
 }

@@ -5,4 +5,4 @@
 	read -r; test_args=${REPLY//[$'\r\n']}
 } < project.cfg
 
-python3 api-utils-common/scripts/test.py --tool ${project_name} ${test_args} $@
+python3 api-utils-common/scripts/test.py --tool ${project_name} "${test_args}" $@

@@ -1,6 +1,7 @@
 #include "Helpers.hpp"
 #include "JsonFile.hpp"
 #include "NotifyFunctionCallAction.hpp"
+#include "NotifyVariableDeclarationAction.hpp"
 #include "Options.hpp"
 
 #include "clang/Frontend/TextDiagnosticPrinter.h"
@@ -70,6 +71,17 @@ static cl::alias functionCallAlias("fc",
     cl::desc("Same as -function-call"),
     cl::aliasopt(functionCall)
 );
+
+static cl::list<std::string> variableDeclaration("variable-declaration",
+    cl::desc("Variable declaration"),
+    cl::cat(optionCategory),
+    cl::CommaSeparated
+);
+
+static cl::alias variableDeclarationAlias("vd",
+    cl::desc("Same as -variable-declaration"),
+    cl::aliasopt(variableDeclaration)
+);
 // clang-format off
 
 static cl::extrahelp CommonHelp(CommonOptionsParser::HelpMessage);
@@ -79,6 +91,16 @@ template<typename T>
 void addOpt(Options& opts, const T& opt, OptionValue optInit = OptionValue())
 {
     opts.add({ opt.ArgStr, opt.HelpStr, opt.getNumOccurrences() > 0 ? opt : optInit });
+}
+
+template<typename ActionType>
+void addMatcher(
+    MatchFinder& matchFinder,
+    std::vector<std::unique_ptr<FrontendAction>>& actions,
+    ActionType&& action)
+{
+    matchFinder.addMatcher(action->matcher(), action.get());
+    actions.push_back(std::move(action));
 }
 
 } // namespace
@@ -110,10 +132,15 @@ int main(int argc, const char** argv)
 
     for (auto& fc : functionCall) {
         const auto [ className, methodName ] = splitClassMethod(fc);
-        auto action = std::make_unique<NotifyFunctionCallAction>(
-            className, methodName, options, jsonFile);
-        matchFinder.addMatcher(action->matcher(), action.get());
-        actions.push_back(std::move(action));
+        addMatcher(matchFinder, actions,
+            std::make_unique<NotifyFunctionCallAction>(
+                className, methodName, options, jsonFile));
+    }
+
+    for (auto& vd : variableDeclaration) {
+        addMatcher(matchFinder, actions,
+            std::make_unique<NotifyVariableDeclarationAction>(
+                vd, options, jsonFile));
     }
 
     // MatchPrinter matchPrinter;
