@@ -66,6 +66,8 @@ inline std::string varDeclTypeAsString(const clang::DeclaratorDecl& declDecl)
 {
     if (clang::dyn_cast<clang::FieldDecl>(&declDecl)) {
         return "member";
+    } else if (clang::dyn_cast<clang::ParmVarDecl>(&declDecl)) {
+        return "parameter";
     } else if (clang::dyn_cast<clang::VarDecl>(&declDecl)) {
         return "non-member";
     } else {

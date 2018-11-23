@@ -22,9 +22,22 @@ enum class EnumClass
 
 class AnotherClass
 {
+public:
+    void fnWithParams1(TestClass testClass);
+    void fnWithParams2(const TestClass& testClass);
+    void fnTakingEnum(EnumClass enumClass);
+
 private:
     TestClass m_test;
     EnumClass m_enum;
 };
 
-inline void freeFunction() {}
+inline void freeFunction()
+{
+    AnotherClass another;
+
+    another.fnWithParams1({});
+    another.fnWithParams2({});
+    EnumClass enumClass;
+    another.fnTakingEnum(enumClass);
+}

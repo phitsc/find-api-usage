@@ -2,14 +2,32 @@
   {
     "file": "/root/test_project/integration_tests/src/TypeDefinitions.hpp",
     "line": 26,
+    "message": "TestClass testClass",
+    "type": "parameter"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/TypeDefinitions.hpp",
+    "line": 28,
+    "message": "EnumClass enumClass",
+    "type": "parameter"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/TypeDefinitions.hpp",
+    "line": 31,
     "message": "TestClass m_test",
     "type": "member"
   },
   {
     "file": "/root/test_project/integration_tests/src/TypeDefinitions.hpp",
-    "line": 27,
+    "line": 32,
     "message": "EnumClass m_enum",
     "type": "member"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/TypeDefinitions.hpp",
+    "line": 41,
+    "message": "EnumClass enumClass",
+    "type": "non-member"
   },
   {
     "file": "/root/test_project/integration_tests/src/main.cpp",
