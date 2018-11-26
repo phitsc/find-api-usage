@@ -1,4 +1,9 @@
+
 * text=auto
 
 *.sh text eol=lf
 *.cfg text eol=lf
+
+make text eol=lf
+run-tests text eol=lf
+find-api-usage text eol=lf
