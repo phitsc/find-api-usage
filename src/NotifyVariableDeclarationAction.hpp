@@ -27,10 +27,12 @@ class NotifyVariableDeclarationAction : public FrontendAction
     {
         using namespace clang::ast_matchers;
 
-        return declaratorDecl(anyOf(
-            varDecl(hasType(namedDecl(hasName(m_typeName)))),
-            fieldDecl(hasType(namedDecl(hasName(m_typeName))))
-        )).bind("declarator_decl");
+        return declaratorDecl(hasType(hasUnqualifiedDesugaredType(
+            anyOf(
+                enumType(hasDeclaration(namedDecl(hasName(m_typeName)))),
+                recordType(hasDeclaration(namedDecl(hasName(m_typeName))))
+            )
+        ))).bind("declarator_decl");
     }
 
     virtual void run(const clang::ast_matchers::MatchFinder::MatchResult& result) override

@@ -9,9 +9,11 @@
 #include <clang/Basic/SourceManager.h>
 #include <clang/Lex/Lexer.h>
 #include <llvm/Support/Casting.h>
+#include <string>
 
-
-inline std::string toString(const clang::Stmt& callExpr)
+inline std::string toString(
+    const clang::Stmt& callExpr,
+    const clang::SourceManager&)
 {
     std::string buffer;
     llvm::raw_string_ostream os(buffer);
@@ -41,27 +43,6 @@ inline std::string callTypeAsString(const clang::CallExpr& callExpr)
 }
 
 
-inline void printToConsole(
-    const clang::SourceManager& sm,
-    const clang::CallExpr& callExpr,
-    bool beVerbose,
-    bool onlyUserCode = true)
-{
-    const auto ploc = sm.getPresumedLoc(callExpr.getBeginLoc());
-
-    if (ploc.isValid() &&
-        (!onlyUserCode || sm.getFileCharacteristic(callExpr.getBeginLoc()) == clang::SrcMgr::C_User)) {
-        llvm::outs()
-            << ploc.getFilename() << ":" << ploc.getLine() << ": "
-            << toString(callExpr) << "\n";
-
-        if (beVerbose) {
-            llvm::outs() << ": " << callTypeAsString(callExpr) << " call\n";
-        }
-    }
-}
-
-
 inline std::string varDeclTypeAsString(const clang::DeclaratorDecl& declDecl)
 {
     if (clang::dyn_cast<clang::FieldDecl>(&declDecl)) {
@@ -76,22 +57,36 @@ inline std::string varDeclTypeAsString(const clang::DeclaratorDecl& declDecl)
 }
 
 
+inline std::string verboseMessage(const clang::CallExpr& callExpr)
+{
+    return callTypeAsString(callExpr) + " call";
+}
+
+
+inline std::string verboseMessage(const clang::DeclaratorDecl& declDecl)
+{
+    return varDeclTypeAsString(declDecl) + " variable declaration of type '"
+         + declDecl.getType()->getLocallyUnqualifiedSingleStepDesugaredType().getAsString();
+}
+
+
+template<typename T>
 inline void printToConsole(
     const clang::SourceManager& sm,
-    const clang::DeclaratorDecl& declDecl,
+    const T& astObject,
     bool beVerbose,
     bool onlyUserCode = true)
 {
-    const auto ploc = sm.getPresumedLoc(declDecl.getBeginLoc());
+    const auto ploc = sm.getPresumedLoc(astObject.getBeginLoc());
 
     if (ploc.isValid() &&
-        (!onlyUserCode || sm.getFileCharacteristic(declDecl.getBeginLoc()) == clang::SrcMgr::C_User)) {
+        (!onlyUserCode || sm.getFileCharacteristic(astObject.getBeginLoc()) == clang::SrcMgr::C_User)) {
         llvm::outs()
             << ploc.getFilename() << ":" << ploc.getLine() << ": "
-            << toString(declDecl, sm) << "\n";
+            << toString(astObject, sm) << "\n";
 
         if (beVerbose) {
-            llvm::outs() << ": " << varDeclTypeAsString(declDecl) << " variable declaration\n";
+            llvm::outs() << " : " << verboseMessage(astObject) << "\n";
         }
     }
 }

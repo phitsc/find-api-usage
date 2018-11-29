@@ -9,6 +9,7 @@ public:
     void fn2() {}
     void fn2(bool) {}
     void fn2(std::string) {}
+    void fn2(int) {}
     void fn3() {}
     void fn4() {}
 };
@@ -23,21 +24,23 @@ enum class EnumClass
 class AnotherClass
 {
 public:
-    void fnWithParams1(TestClass testClass);
-    void fnWithParams2(const TestClass& testClass);
-    void fnTakingEnum(EnumClass enumClass);
+    void fnTestClass(TestClass aTest) {}
+    void fnTestClassRef(const TestClass& aTest) {}
+    void fnEnumClass(EnumClass anEnum) {}
 
 private:
     TestClass m_test;
     EnumClass m_enum;
 };
 
-inline void freeFunction()
+template<typename T>
+class TemplateClass
 {
-    AnotherClass another;
 
-    another.fnWithParams1({});
-    another.fnWithParams2({});
-    EnumClass enumClass;
-    another.fnTakingEnum(enumClass);
-}
+};
+
+typedef TestClass TypedefedClass;
+typedef EnumClass TypedefedEnum;
+
+using UsingClass = TestClass;
+using UsingEnum = EnumClass;

@@ -35,35 +35,36 @@ public:
         const clang::SourceManager& sm,
         const clang::CallExpr& callExpr)
     {
-        if (!m_filePath.empty()) {
-            const std::string filename = sm.getFilename(callExpr.getBeginLoc());
-
-            m_json += {
-                { "file", filename },
-                { "line", sm.getSpellingLineNumber(callExpr.getBeginLoc()) },
-                { "message", toString(callExpr) },
-                { "type", callTypeAsString(callExpr) }
-            };
-        }
+        write(sm, callExpr, callTypeAsString);
     }
 
     void write(
         const clang::SourceManager& sm,
         const clang::DeclaratorDecl& declDecl)
     {
-        if (!m_filePath.empty()) {
-            const std::string filename = sm.getFilename(declDecl.getBeginLoc());
-
-            m_json += {
-                { "file", filename },
-                { "line", sm.getSpellingLineNumber(declDecl.getBeginLoc()) },
-                { "message", toString(declDecl, sm) },
-                { "type", varDeclTypeAsString(declDecl) }
-            };
-        }
+        write(sm, declDecl, varDeclTypeAsString);
     }
 
 private:
+    template<typename T, typename U>
+    void write(
+        const clang::SourceManager& sm,
+        const T& astObject,
+        const U& astObjectAsString)
+    {
+        if (!m_filePath.empty()) {
+            const auto ploc = sm.getPresumedLoc(astObject.getBeginLoc());
+            if (ploc.isValid()) {
+                m_json += {
+                    { "file", ploc.getFilename() },
+                    { "line", ploc.getLine() },
+                    { "message", toString(astObject, sm) },
+                    { "type", astObjectAsString(astObject) }
+                };
+            }
+        }
+    }
+
     std::string m_filePath;
     nlohmann::json m_json;
 };

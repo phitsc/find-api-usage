@@ -1,68 +1,116 @@
 [
   {
     "file": "/root/test_project/integration_tests/src/TypeDefinitions.hpp",
-    "line": 26,
-    "message": "TestClass testClass",
+    "line": 27,
+    "message": "TestClass aTest",
     "type": "parameter"
   },
   {
     "file": "/root/test_project/integration_tests/src/TypeDefinitions.hpp",
-    "line": 28,
-    "message": "EnumClass enumClass",
+    "line": 29,
+    "message": "EnumClass anEnum",
     "type": "parameter"
   },
   {
     "file": "/root/test_project/integration_tests/src/TypeDefinitions.hpp",
-    "line": 31,
+    "line": 32,
     "message": "TestClass m_test",
     "type": "member"
   },
   {
     "file": "/root/test_project/integration_tests/src/TypeDefinitions.hpp",
-    "line": 32,
+    "line": 33,
     "message": "EnumClass m_enum",
     "type": "member"
   },
   {
-    "file": "/root/test_project/integration_tests/src/TypeDefinitions.hpp",
-    "line": 41,
-    "message": "EnumClass enumClass",
-    "type": "non-member"
-  },
-  {
     "file": "/root/test_project/integration_tests/src/main.cpp",
-    "line": 9,
-    "message": "t.fn2()",
-    "type": "method"
-  },
-  {
-    "file": "/root/test_project/integration_tests/src/main.cpp",
-    "line": 10,
-    "message": "t.fn2(true)",
+    "line": 15,
+    "message": "test.fn2(n)",
     "type": "method"
   },
   {
     "file": "/root/test_project/integration_tests/src/main.cpp",
     "line": 11,
+    "message": "EnumClass enumClass",
+    "type": "non-member"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 14,
+    "message": "TestClass test",
+    "type": "non-member"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 26,
+    "message": "t.fn2()",
+    "type": "method"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 27,
+    "message": "t.fn2(true)",
+    "type": "method"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 28,
     "message": "t.fn2(\"Hello, world\")",
     "type": "method"
   },
   {
     "file": "/root/test_project/integration_tests/src/main.cpp",
-    "line": 15,
-    "message": "freeFunction()",
+    "line": 31,
+    "message": "freeFunction(0)",
     "type": "function"
   },
   {
     "file": "/root/test_project/integration_tests/src/main.cpp",
-    "line": 5,
+    "line": 32,
+    "message": "freeFunction(2)",
+    "type": "function"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 24,
     "message": "TestClass t",
     "type": "non-member"
   },
   {
     "file": "/root/test_project/integration_tests/src/main.cpp",
-    "line": 17,
+    "line": 34,
     "message": "EnumClass anEnum",
+    "type": "non-member"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 35,
+    "message": "TypedefedClass tc",
+    "type": "non-member"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 36,
+    "message": "TypedefedEnum te",
+    "type": "non-member"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 37,
+    "message": "UsingClass uc",
+    "type": "non-member"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 38,
+    "message": "UsingEnum ue",
+    "type": "non-member"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 39,
+    "message": "TemplateClass<int> inttemp",
     "type": "non-member"
   }
 ]
