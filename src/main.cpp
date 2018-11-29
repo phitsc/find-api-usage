@@ -62,7 +62,8 @@ static cl::alias verboseAlias("v",
 );
 
 static cl::list<std::string> functionCall("function-call",
-    cl::desc("Function or method call"),
+    cl::desc("Find function (only <method>) or method (<class::method>) calls"),
+    cl::value_desc("class::method"),
     cl::cat(optionCategory),
     cl::CommaSeparated
 );
@@ -73,7 +74,8 @@ static cl::alias functionCallAlias("fc",
 );
 
 static cl::list<std::string> variableDeclaration("variable-declaration",
-    cl::desc("Variable declaration"),
+    cl::desc("Find variable declarations of type <typename>"),
+    cl::value_desc("typename"),
     cl::cat(optionCategory),
     cl::CommaSeparated
 );
