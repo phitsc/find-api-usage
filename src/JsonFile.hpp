@@ -8,9 +8,13 @@
 #include <iomanip>
 #include <memory>
 
+/*! Write \c clang::CallExpr and \c clang::DeclarationDecl to JSON
+*/
 class JsonFile
 {
 public:
+    //! Constructs a JsonFile
+    //! \param filePath The path to the JSON file to create
     JsonFile(const std::string& filePath)
         : m_filePath(filePath)
     {
@@ -26,11 +30,15 @@ public:
         }
     }
 
+    //! Returns \c true if this JsonFile was created
+    //! with a non-empty \c filePath
     operator bool() const
     {
         return !m_filePath.empty();
     }
 
+    //! Writes information about the passed \c callExpr
+    //! to this JSON file
     void write(
         const clang::SourceManager& sm,
         const clang::CallExpr& callExpr)
@@ -38,6 +46,8 @@ public:
         write(sm, callExpr, callTypeAsString);
     }
 
+    //! Writes information about the passed \c declDecl
+    //! to this JSON file
     void write(
         const clang::SourceManager& sm,
         const clang::DeclaratorDecl& declDecl)

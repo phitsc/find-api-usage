@@ -1,3 +1,7 @@
+//! \file ClangHelpers.hpp
+//! \brief Free functions adding Clang-related functionality
+//! \addtogroup freefunctions Free functions
+//! \{
 #pragma once
 
 #include <clang/AST/Decl.h>
@@ -11,17 +15,24 @@
 #include <llvm/Support/Casting.h>
 #include <string>
 
+//! Convert a \c clang:Stmt to a string
+//! \param statement The clang statement to convert
+//! \result Returns the converted string
 inline std::string toString(
-    const clang::Stmt& callExpr,
+    const clang::Stmt& statement,
     const clang::SourceManager&)
 {
     std::string buffer;
     llvm::raw_string_ostream os(buffer);
-    callExpr.printPretty(os, nullptr, clang::PrintingPolicy(clang::LangOptions()));
+    statement.printPretty(os, nullptr, clang::PrintingPolicy(clang::LangOptions()));
     return os.str();
 }
 
 
+//! Convert a \c clang:NamedDecl to a string
+//! \param namedDecl The named declaration to convert
+//! \param sourceManager A clang::SourceManager instance
+//! \result Returns the converted named declaration
 inline std::string toString(
     const clang::NamedDecl& namedDecl,
     const clang::SourceManager& sourceManager)
@@ -33,6 +44,8 @@ inline std::string toString(
 }
 
 
+//! Returns \c "method" if \c callExpr refers to a method (member function) and
+//! \c "function" if \c callExpr refers to a function (free function)
 inline std::string callTypeAsString(const clang::CallExpr& callExpr)
 {
     if (clang::dyn_cast<clang::CXXMemberCallExpr>(&callExpr)) {
@@ -43,6 +56,11 @@ inline std::string callTypeAsString(const clang::CallExpr& callExpr)
 }
 
 
+//! Returns one of the following strings, depending on \c declDecl
+//! \li \c "member" for member variables
+//! \li \c "parameter" for function parameters
+//! \li \c "non-member" for global variables
+//! \li \c "other" if none of the above
 inline std::string varDeclTypeAsString(const clang::DeclaratorDecl& declDecl)
 {
     if (clang::dyn_cast<clang::FieldDecl>(&declDecl)) {
@@ -57,12 +75,14 @@ inline std::string varDeclTypeAsString(const clang::DeclaratorDecl& declDecl)
 }
 
 
+//! Returns a verbose message string describing \c callExpr
 inline std::string verboseMessage(const clang::CallExpr& callExpr)
 {
     return callTypeAsString(callExpr) + " call";
 }
 
 
+//! Returns a verbose message string describing \c declDecl
 inline std::string verboseMessage(const clang::DeclaratorDecl& declDecl)
 {
     return varDeclTypeAsString(declDecl) + " variable declaration of type '"
@@ -70,6 +90,7 @@ inline std::string verboseMessage(const clang::DeclaratorDecl& declDecl)
 }
 
 
+//! \private
 template<typename T>
 inline void printToConsole(
     const clang::SourceManager& sm,
@@ -90,3 +111,5 @@ inline void printToConsole(
         }
     }
 }
+
+//! \}

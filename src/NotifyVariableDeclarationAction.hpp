@@ -9,9 +9,15 @@
 
 #include <string>
 
+/*! A frontend action matching variable declarations
+*/
 class NotifyVariableDeclarationAction : public FrontendAction
 {
   public:
+    //! Constructs a NotifyVariableDeclarationAction
+    //! \param typeName The name of the data type for which to find variable declarations
+    //! \param options An Options object holding the program arguments
+    //! \param jsonFile A JsonFile object to write details about found variable declarations to
     NotifyVariableDeclarationAction(
         const std::string& typeName,
         const Options& options,
@@ -23,6 +29,7 @@ class NotifyVariableDeclarationAction : public FrontendAction
     {
     }
 
+    //! Returns the MatchFinder expression for matching
     auto matcher() const
     {
         using namespace clang::ast_matchers;
@@ -35,6 +42,7 @@ class NotifyVariableDeclarationAction : public FrontendAction
         ))).bind("declarator_decl");
     }
 
+    //! \private
     virtual void run(const clang::ast_matchers::MatchFinder::MatchResult& result) override
     {
         if (const auto declDecl = result.Nodes.getNodeAs<clang::DeclaratorDecl>("declarator_decl")) {

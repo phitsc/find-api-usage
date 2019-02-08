@@ -9,9 +9,16 @@
 
 #include <string>
 
+/*! A frontend action matching function calls
+*/
 class NotifyFunctionCallAction : public FrontendAction
 {
   public:
+    //! Constructs a NotifyFunctionCallAction
+    //! \param className The name of the class for which to find method invocations
+    //! \param functionName The name of the function or method for which to find invocations
+    //! \param options An Options object holding the program arguments
+    //! \param jsonFile A JsonFile object to write details about found function calls to
     NotifyFunctionCallAction(
         const std::string& className,
         const std::string& functionName,
@@ -25,6 +32,7 @@ class NotifyFunctionCallAction : public FrontendAction
     {
     }
 
+    //! Returns the MatchFinder expression for matching
     auto matcher() const
     {
         using namespace clang::ast_matchers;
@@ -41,6 +49,7 @@ class NotifyFunctionCallAction : public FrontendAction
         }
     }
 
+    //! \private
     virtual void run(const clang::ast_matchers::MatchFinder::MatchResult& result) override
     {
         if (const auto funcCall = result.Nodes.getNodeAs<clang::CallExpr>("function_call")) {
