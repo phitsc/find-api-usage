@@ -32,7 +32,7 @@
   {
     "file": "/root/test_project/integration_tests/src/main.cpp",
     "line": 11,
-    "message": "EnumClass enumClass",
+    "message": "EnumClass enumClass = EnumClass::Enum1",
     "type": "non-member"
   },
   {
@@ -55,12 +55,6 @@
   },
   {
     "file": "/root/test_project/integration_tests/src/main.cpp",
-    "line": 28,
-    "message": "t.fn2(\"Hello, world\")",
-    "type": "method"
-  },
-  {
-    "file": "/root/test_project/integration_tests/src/main.cpp",
     "line": 31,
     "message": "freeFunction(0)",
     "type": "function"
@@ -79,8 +73,14 @@
   },
   {
     "file": "/root/test_project/integration_tests/src/main.cpp",
+    "line": 28,
+    "message": "t.fn2(std::string(\"Hello, world\"))",
+    "type": "method"
+  },
+  {
+    "file": "/root/test_project/integration_tests/src/main.cpp",
     "line": 34,
-    "message": "EnumClass anEnum",
+    "message": "EnumClass anEnum = EnumClass::Enum1",
     "type": "non-member"
   },
   {

@@ -31,6 +31,12 @@ public:
 private:
     TestClass m_test;
     EnumClass m_enum;
+
+    void getRidOfUnusedPrivateField()
+    {
+        m_test.fn1();
+        m_enum = EnumClass::Enum1;
+    }
 };
 
 template<typename T>

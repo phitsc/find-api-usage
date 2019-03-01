@@ -8,7 +8,7 @@ inline void freeFunction(int n)
     another.fnTestClass({});
     another.fnTestClassRef({});
 
-    EnumClass enumClass;
+    EnumClass enumClass = EnumClass::Enum1;
     another.fnEnumClass(enumClass);
 
     TestClass test;
@@ -25,13 +25,13 @@ int main()
     t.fn1();
     t.fn2();
     t.fn2(true);
-    t.fn2("Hello, world");
+    t.fn2(std::string("Hello, world"));
     t.fn3();
 
     freeFunction(0);
     MACRO_CALLING_FUN(2);
 
-    EnumClass anEnum;
+    EnumClass anEnum = EnumClass::Enum1;
     TypedefedClass tc;
     TypedefedEnum te;
     UsingClass uc;
